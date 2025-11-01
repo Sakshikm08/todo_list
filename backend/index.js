@@ -38,12 +38,14 @@ const Task = mongoose.model('Task', TaskSchema);
 // GET all tasks
 app.get('/api/tasks', async (req, res) => {
   try {
-    const tasks = await Task.find().sort({ createdAt: -1 }); //mongo db opertation
-    res.json(tasks);// send tasks as json
+    const tasks = await Task.find();
+    const total = await Task.countDocuments(); // count total tasks
+    res.json({ total, tasks }); // send both
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: 'Server error' });
   }
 });
+
 
 
 // POST new task

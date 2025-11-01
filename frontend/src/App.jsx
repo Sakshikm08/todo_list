@@ -1,19 +1,29 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import './App.css'
+
+const API_BASE_URL = 'http://localhost:5001/api' // ✅ add your backend URL
 
 function App() {
   const [tasks, setTasks] = useState([])
   const [newTask, setNewTask] = useState('')
-  const [initialLoad, setInitialLoad] = useState(true)
   const [loading, setLoading] = useState(false)
-  
+
+  // ✅ Fetch tasks when app loads
+  useEffect(() => {
+    fetchTasks()
+  }, [])
+
   const fetchTasks = async () => {
     try {
       setLoading(true)
-          const response = await axios.get(`${API_BASE_URL}/tasks`);
-
-      setTasks(response.data)
-      setInitialLoad(true)
+      const response = await axios.get(`${API_BASE_URL}/tasks`)
+      // backend sends { total, tasks }
+      if (Array.isArray(response.data)) {
+        setTasks(response.data)
+      } else {
+        setTasks(response.data.tasks || [])
+      }
     } catch (error) {
       console.error('Error fetching tasks:', error)
       alert('Failed to fetch tasks')
@@ -25,13 +35,11 @@ function App() {
   const addTask = (e) => {
     e.preventDefault()
     if (!newTask.trim()) return
-
     const task = {
       _id: Date.now().toString(),
       text: newTask.trim(),
-      completed: false
+      completed: false,
     }
-
     setTasks([task, ...tasks])
     setNewTask('')
   }
@@ -49,6 +57,7 @@ function App() {
 
   const completedTasks = tasks.filter(task => task.completed)
   const pendingTasks = tasks.filter(task => !task.completed)
+  const totalTasks = tasks.length
 
   return (
     <div className="app">
@@ -57,6 +66,15 @@ function App() {
           <h1>Todo List</h1>
           <p>Simple task management app</p>
         </header>
+
+        {/* ✅ Show Total Count */}
+        <div className="task-summary">
+          <p>
+            <strong>Total Tasks:</strong> {totalTasks} &nbsp;|&nbsp;
+            <strong>Pending:</strong> {pendingTasks.length} &nbsp;|&nbsp;
+            <strong>Completed:</strong> {completedTasks.length}
+          </p>
+        </div>
 
         {/* Add Task Form */}
         <form onSubmit={addTask} className="task-form">
@@ -78,10 +96,11 @@ function App() {
           </div>
         </form>
 
-        {/* Tasks List */}
-        {initialLoad && (
+        {/* Task Lists */}
+        {loading ? (
+          <p>Loading tasks...</p>
+        ) : (
           <div className="tasks-container">
-            {/* Pending Tasks */}
             {pendingTasks.length > 0 && (
               <div className="task-section">
                 <h2>Pending Tasks ({pendingTasks.length})</h2>
@@ -98,7 +117,6 @@ function App() {
               </div>
             )}
 
-            {/* Completed Tasks */}
             {completedTasks.length > 0 && (
               <div className="task-section">
                 <h2>Completed Tasks ({completedTasks.length})</h2>
@@ -115,7 +133,6 @@ function App() {
               </div>
             )}
 
-            {/* Empty State */}
             {tasks.length === 0 && (
               <div className="empty-state">
                 <p>No tasks yet. Add a task to get started!</p>
@@ -128,7 +145,6 @@ function App() {
   )
 }
 
-// ✅ Fixed TaskItem Component
 function TaskItem({ task, onToggle, onDelete }) {
   return (
     <div className={`task-item ${task.completed ? 'completed' : ''}`}>

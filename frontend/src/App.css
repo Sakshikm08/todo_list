@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -12,18 +13,21 @@ body {
   background: linear-gradient(135deg, #f8f7f4 0%, #e8e6e1 100%);
   min-height: 100vh;
 }
+
 .app {
   min-height: 100vh;
   padding: 2rem 1rem;
 }
+
 .container {
   max-width: 600px;
   margin: 0 auto;
 }
-/* Header */
+
+/* ---------------- Header ---------------- */
 .header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: #3a3632;
 }
 .header h1 {
@@ -35,7 +39,28 @@ body {
   font-size: 1rem;
   opacity: 0.9;
 }
-/* Task Form */
+
+/* ✅ Summary Section */
+.task-summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3a3632;
+}
+
+.task-summary strong {
+  color: #7a6d5f;
+}
+
+/* ---------------- Task Form ---------------- */
 .task-form {
   background: white;
   border-radius: 12px;
@@ -43,10 +68,12 @@ body {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
 }
+
 .input-group {
   display: flex;
   gap: 0.75rem;
 }
+
 .task-input {
   flex: 1;
   padding: 0.875rem 1rem;
@@ -62,6 +89,7 @@ body {
 .task-input::placeholder {
   color: #9ca3af;
 }
+
 .add-button {
   padding: 0.875rem 1.5rem;
   background: #8d7f6f;
@@ -80,12 +108,14 @@ body {
   background: #d1d5db;
   cursor: not-allowed;
 }
-/* Tasks Container */
+
+/* ---------------- Tasks Container ---------------- */
 .tasks-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
 }
+
 .task-section {
   background: white;
   border-radius: 12px;
@@ -103,7 +133,8 @@ body {
   flex-direction: column;
   gap: 0.75rem;
 }
-/* Task Item */
+
+/* ---------------- Task Item ---------------- */
 .task-item {
   display: flex;
   align-items: center;
@@ -123,12 +154,14 @@ body {
   opacity: 0.7;
   background: #f3f4f6;
 }
+
 .task-content {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   flex: 1;
 }
+
 .checkbox {
   width: 24px;
   height: 24px;
@@ -151,6 +184,7 @@ body {
   background: #c9b8a3;
   border-color: #c9b8a3;
 }
+
 .task-text {
   font-size: 1rem;
   color: #3a3632;
@@ -160,6 +194,7 @@ body {
   text-decoration: line-through;
   color: #9ca3af;
 }
+
 .delete-button {
   width: 32px;
   height: 32px;
@@ -180,7 +215,8 @@ body {
   background: #ead5d5;
   transform: scale(1.1);
 }
-/* Empty State */
+
+/* ---------------- Empty State ---------------- */
 .empty-state {
   background: white;
   border-radius: 12px;
@@ -192,7 +228,8 @@ body {
   font-size: 1.125rem;
   color: #6b7280;
 }
-/* Responsive */
+
+/* ---------------- Responsive ---------------- */
 @media (max-width: 640px) {
   .header h1 {
     font-size: 2rem;
@@ -202,5 +239,10 @@ body {
   }
   .add-button {
     width: 100%;
+  }
+  .task-summary {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
   }
 }
